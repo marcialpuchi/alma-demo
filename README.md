@@ -14,6 +14,12 @@ pnpm dev
 bun dev
 ```
 
+Authentication
+
+For authentication I decided to use Kindle, you will need to create an account and get the secret key.
+
+create a .env.local file and replace the necessary keys.
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
