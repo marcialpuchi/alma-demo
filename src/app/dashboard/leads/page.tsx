@@ -10,7 +10,7 @@ import Paper from "@mui/material/Paper";
 import { useMemo, useState } from "react";
 import { useStore } from "@/store/useStore";
 
-export default function () {
+export default function LeadsPage() {
   const { leads } = useStore();
 
   const [input, setInput] = useState("");
@@ -36,8 +36,10 @@ export default function () {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                {Object.keys(leads[0]).map((name) => (
-                  <TableCell className="capitalize">{name}</TableCell>
+                {Object.keys(leads[0]).map((name, idx) => (
+                  <TableCell key={`${idx}-${name}`} className="capitalize">
+                    {name}
+                  </TableCell>
                 ))}
               </TableRow>
             </TableHead>

@@ -1,12 +1,20 @@
 import { Logo } from "@/components/Logo";
+import { UserCircleIcon } from "@heroicons/react/24/solid";
 import {
   LogoutLink,
   getKindeServerSession,
 } from "@kinde-oss/kinde-auth-nextjs/server";
+import Image from "next/image";
 import Link from "next/link";
-import { UserCircleIcon } from "@heroicons/react/24/solid";
+import { ReactNode } from "react";
 
-export default async function ({ children }: { children: React.ReactNode }) {
+type DashboardLayoutProps = {
+  children: ReactNode;
+};
+
+export default async function DashboardLayout({
+  children,
+}: DashboardLayoutProps) {
   const { getUser } = getKindeServerSession();
 
   const user = await getUser();
@@ -24,7 +32,11 @@ export default async function ({ children }: { children: React.ReactNode }) {
           </ul>
           <LogoutLink className="mt-auto p-5 flex flex-row gap-2 items-center cursor-pointer">
             {user?.picture ? (
-              <img className="w-8 rounded-full" src={user.picture} />
+              <Image
+                alt="profile picture"
+                className="w-8 rounded-full"
+                src={user.picture}
+              />
             ) : (
               <UserCircleIcon className="w-8" />
             )}

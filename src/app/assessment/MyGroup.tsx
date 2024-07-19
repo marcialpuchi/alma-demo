@@ -20,6 +20,8 @@ import {
   rankWith,
   uiTypeIs,
 } from "@jsonforms/core";
+import Image from "next/image";
+import { Section } from "./Section";
 
 export const myGroupTester = rankWith(1000, uiTypeIs("Group"));
 
@@ -37,11 +39,15 @@ const MyGroupRenderer = (props: any) => {
   };
 
   return (
-    <section className="font-bold text-center mb-10">
-      <img src={uischema.imgSrc} className="mx-auto" />
-      <h3 className="text-2xl mb-4">{uischema.label}</h3>
-      <MaterialLayoutRenderer {...layoutProps} />
-    </section>
+    <Section
+      label={uischema.label}
+      description={uischema.description}
+      imgSrc={uischema.imgSrc}
+    >
+      <div className="mt-10 w-3/5 mx-auto">
+        <MaterialLayoutRenderer {...layoutProps} />
+      </div>
+    </Section>
   );
 };
 
