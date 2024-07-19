@@ -11,6 +11,9 @@
       "type": "string",
       "format": "email"
     },
+    "file_upload": {
+      "type": "string"
+    },
     "linkedin": {
       "type": "string"
     },

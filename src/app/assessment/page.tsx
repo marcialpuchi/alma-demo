@@ -6,18 +6,22 @@ import {
   materialRenderers,
 } from "@jsonforms/material-renderers";
 import { JsonForms } from "@jsonforms/react";
+import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { Header } from "./Header";
 import MyGroupRenderer, { myGroupTester } from "./MyGroup";
+import FileUploadControlWithJsonForms, {
+  FileUploadControlTester,
+} from "./FileUploadControl";
+import { Section } from "./Section";
+import { submitAssesment } from "./actions";
 import schema from "./schema.json";
 import uischema from "./uischema.json";
-import { submitAssesment } from "./actions";
-import { Section } from "./Section";
-import Link from "next/link";
 
 const renderers = [
   ...materialRenderers,
   { tester: myGroupTester, renderer: MyGroupRenderer },
+  { tester: FileUploadControlTester, renderer: FileUploadControlWithJsonForms },
 ];
 
 export default function LeadForm() {
@@ -42,8 +46,6 @@ export default function LeadForm() {
 
     submitAssesment(data);
   };
-
-  console.log(formSubmitted);
 
   if (formSubmitted) {
     return (

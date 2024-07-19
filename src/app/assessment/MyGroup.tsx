@@ -1,26 +1,9 @@
+import { rankWith, uiTypeIs } from "@jsonforms/core";
 import {
   MaterialLayoutRenderer,
   MaterialLayoutRendererProps,
 } from "@jsonforms/material-renderers";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Hidden,
-  Typography,
-} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import React from "react";
 import { withJsonFormsLayoutProps } from "@jsonforms/react";
-import {
-  JsonFormsRendererRegistryEntry,
-  JsonSchema,
-  Layout,
-  UISchemaElement,
-  rankWith,
-  uiTypeIs,
-} from "@jsonforms/core";
-import Image from "next/image";
 import { Section } from "./Section";
 
 export const myGroupTester = rankWith(1000, uiTypeIs("Group"));

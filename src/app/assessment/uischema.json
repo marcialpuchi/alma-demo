@@ -21,6 +21,10 @@
         },
         {
           "type": "Control",
+          "scope": "#/properties/file_upload"
+        },
+        {
+          "type": "Control",
           "label": "LinkedIn",
           "scope": "#/properties/linkedin"
         }
