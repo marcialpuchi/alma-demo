@@ -1,0 +1,54 @@
+{
+  "type": "VerticalLayout",
+  "elements": [
+    {
+      "type": "Group",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/first_name"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/last_name"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/email"
+        }
+      ]
+    },
+    {
+      "type": "Group",
+      "label": "Visa categories of interest?",
+      "imgSrc": "/images/dice.png",
+      "elements": [
+        {
+          "type": "Control",
+          "label": "LinkedIn",
+          "scope": "#/properties/linkedin"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/visa_types"
+        }
+      ]
+    },
+    {
+      "type": "Group",
+      "label": "How can we help you?",
+      "imgSrc": "/images/heart.png",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/how_to_help",
+          "title": "foo",
+          "label": "What is your current status and when does it expire? What is your past immigration history? Are you looking for long-term permanent residencyor short-term employment visa or both? Are there any timeline considerations?",
+          "options": {
+            "multi": true
+          }
+        }
+      ]
+    }
+  ]
+}
