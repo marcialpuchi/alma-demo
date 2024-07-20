@@ -14,7 +14,7 @@ pnpm dev
 bun dev
 ```
 
-Authentication
+## Authentication
 
 For authentication I decided to use Kindle, you will need to create an account and get the secret key.
 
@@ -25,6 +25,20 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+
+## Database
+
+For storage, I decided to host the database on Vercel. You can create a project there, and add the necessary keys to `.env.development.local`. For more information you can refer to [NextJS's documentation](https://nextjs.org/learn/dashboard-app/setting-up-your-database).
+
+Once the database is linked to the project, head to `src/api/seed/route.ts` and uncomment the desired queries to seed the database.
+
+To seed the database:
+
+- run `yarn dev`
+- Open the following link in the browser [](http://localhost:3000/api/seed)
+- You should see a success message
+
+After the database is created, you can create new leads, and these should show in the dashboard.
 
 ## Learn More
 
