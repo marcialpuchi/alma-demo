@@ -14,7 +14,6 @@ import FileUploadControlWithJsonForms, {
   FileUploadControlTester,
 } from "./FileUploadControl";
 import { Section } from "./Section";
-import { submitAssesment } from "./actions";
 import schema from "./schema.json";
 import uischema from "./uischema.json";
 
@@ -27,24 +26,31 @@ const renderers = [
 export default function LeadForm() {
   const [data, setData] = useState({});
   const [errors, setErrors] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const [validationMode, setValidationMode] =
     useState<ValidationMode>("ValidateAndHide");
 
-  const [formSubmitted, setFormSubmitted] = useState(false);
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
     setValidationMode("ValidateAndShow");
 
     if (errors) {
-      console.log("🔥 TODO: handle errors");
+      setIsLoading(false);
       return;
     }
 
-    setFormSubmitted(true);
+    const response = await fetch("/api/leads", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
 
-    submitAssesment(data);
+    if (response.status === 200) {
+      setFormSubmitted(true);
+    }
   };
 
   if (formSubmitted) {
@@ -85,11 +91,12 @@ export default function LeadForm() {
             validationMode={validationMode}
           />
           <button
+            disabled={isLoading}
             type="submit"
             data-testid="clear-data"
-            className="w-3/5 py-5 bg-black text-white font-bold rounded-xl hover:opacity-80 hover:bg-black transition-opacity"
+            className="w-3/5 py-5 bg-black text-white font-bold rounded-xl  transition-opacity disabled:bg-slate-300"
           >
-            Submit
+            {isLoading ? "Loading..." : "Submit"}
           </button>
         </form>
         <footer className="mt-10">

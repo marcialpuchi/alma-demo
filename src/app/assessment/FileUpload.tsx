@@ -28,7 +28,6 @@ export const FileUpload = ({ id, value, updateValue }: FileUploadProps) => {
           className="hidden"
           accept="image/png, image/jpeg, .doc, .docx, .pdf"
           onChange={(e) => {
-            console.log(e.target.value);
             updateValue(e.target.value);
           }}
         />

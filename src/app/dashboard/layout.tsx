@@ -32,7 +32,7 @@ export default async function DashboardLayout({
           </ul>
           <LogoutLink className="mt-auto p-5 flex flex-row gap-2 items-center cursor-pointer">
             {user?.picture ? (
-              <Image
+              <img
                 alt="profile picture"
                 className="w-8 rounded-full"
                 src={user.picture}
