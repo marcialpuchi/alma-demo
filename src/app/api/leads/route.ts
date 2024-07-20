@@ -34,9 +34,25 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
   try {
-    const response = await sql`SELECT * FROM leads;`;
+    const response = await sql`SELECT * FROM leads ORDER BY date;`;
 
     return NextResponse.json({ response: response.rows }, { status: 200 });
+  } catch(e) {
+    return NextResponse.json({ error: e }, { status: 500 });  
+  }
+}
+
+export async function PUT(request: Request) {
+  const body = await request.json()
+  try {
+    
+    const response = await sql`
+    UPDATE leads
+    SET contacted = ${body.contacted}
+    WHERE id = ${body.id};
+    `;
+
+    return NextResponse.json({ response }, { status: 200 });
   } catch(e) {
     return NextResponse.json({ error: e }, { status: 500 });  
   }

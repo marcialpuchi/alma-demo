@@ -9,30 +9,17 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useEffect, useMemo, useState } from "react";
 import { Lead, useStore } from "@/store/useStore";
+import IconButton from "@mui/material/IconButton";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
+import RemoveDoneIcon from "@mui/icons-material/RemoveDone";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 export default function LeadsPage() {
-  const { leads, updateLeads } = useStore();
+  const { leads, updateLeads, toggleLeadUpdatingState } = useStore();
 
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-
-  const fetchLeads = async () => {
-    const res = await fetch("/api/leads");
-    const data = await res.json();
-
-    const LeadData: Lead[] = data.response.map(
-      (item: any): Lead => ({
-        name: `${item.firstname} ${item.lastname}`,
-        email: `${item.email}`,
-        status: Boolean(item.contacted) ? "REACHED_OUT" : "PENDING",
-        submitted: item.date ? new Date(item.date).toDateString() : "",
-      })
-    );
-
-    updateLeads(LeadData);
-
-    setIsLoading(false);
-  };
+  const [isUpdating, setIsUpdating] = useState(true);
 
   useEffect(() => {
     setIsLoading(true);
@@ -47,6 +34,47 @@ export default function LeadsPage() {
         !input || item.name.toLowerCase().indexOf(input.toLowerCase()) >= 0
     );
   }, [leads, input]);
+
+  const fetchLeads = async () => {
+    const res = await fetch("/api/leads");
+    const data = await res.json();
+
+    const LeadData: Lead[] = data.response.map(
+      (item: any): Lead => ({
+        id: `${item.id}`,
+        name: `${item.firstname} ${item.lastname}`,
+        email: `${item.email}`,
+        status: Boolean(item.contacted) ? "REACHED_OUT" : "PENDING",
+        submitted: item.date ? new Date(item.date).toDateString() : "",
+      })
+    );
+
+    updateLeads(LeadData);
+
+    setIsLoading(false);
+  };
+
+  const toggleContacted = async (
+    leadId: string,
+    status: "REACHED_OUT" | "PENDING"
+  ) => {
+    toggleLeadUpdatingState(leadId);
+
+    const response = await fetch("/api/leads", {
+      method: "put",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id: leadId,
+        contacted: status === "PENDING",
+      }),
+    });
+
+    toggleLeadUpdatingState(leadId);
+
+    if (response.status === 200) {
+      fetchLeads();
+    }
+  };
 
   if (isLoading || !leads.length) {
     return;
@@ -66,18 +94,17 @@ export default function LeadsPage() {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                {leads.length &&
-                  Object.keys(leads[0]).map((name, idx) => (
-                    <TableCell key={`${idx}-${name}`} className="capitalize">
-                      {name}
-                    </TableCell>
-                  ))}
+                <TableCell className="capitalize">Name</TableCell>
+                <TableCell className="capitalize">Email</TableCell>
+                <TableCell className="capitalize">Status</TableCell>
+                <TableCell className="capitalize">Submitted</TableCell>
+                <TableCell className="capitalize">Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {filteredData.map((row) => (
                 <TableRow
-                  key={row.name}
+                  key={row.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
@@ -86,6 +113,20 @@ export default function LeadsPage() {
                   <TableCell>{row.email}</TableCell>
                   <TableCell>{row.status}</TableCell>
                   <TableCell>{row.submitted}</TableCell>
+                  <TableCell>
+                    <LoadingButton
+                      variant="contained"
+                      aria-label="toggle customer contacted"
+                      loading={row.isUpdating}
+                      onClick={() => toggleContacted(row.id, row.status)}
+                    >
+                      {row.status === "PENDING" ? (
+                        <DoneAllIcon />
+                      ) : (
+                        <RemoveDoneIcon />
+                      )}
+                    </LoadingButton>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
