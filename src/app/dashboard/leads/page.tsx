@@ -20,8 +20,6 @@ export default function LeadsPage() {
     const res = await fetch("/api/leads");
     const data = await res.json();
 
-    console.log(data);
-
     const LeadData: Lead[] = data.response.map(
       (item: any): Lead => ({
         name: `${item.firstname} ${item.lastname}`,
@@ -39,6 +37,8 @@ export default function LeadsPage() {
   useEffect(() => {
     setIsLoading(true);
     fetchLeads();
+    // There is no need to add additional dependencies since we only want to fetch once.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const filteredData = useMemo(() => {
