@@ -31,3 +31,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: e }, { status: 500 });  
   }
 }
+
+export async function GET(request: Request) {
+  try {
+    const response = await sql`SELECT * FROM leads;`;
+
+    return NextResponse.json({ response: response.rows }, { status: 200 });
+  } catch(e) {
+    return NextResponse.json({ error: e }, { status: 500 });  
+  }
+}
